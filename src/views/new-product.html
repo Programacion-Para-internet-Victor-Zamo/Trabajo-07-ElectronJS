@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir producto</title>
+    <link rel = "stylesheet"  href = "https://bootswatch.com/5/darkly/bootstrap.min.css">
+</head>
+<body>
+    <form class = "p-4">
+        <div class="form-group">
+            <input type = "text" id = "name" class = "form-control" placeholder = "Nombre de los productos" autofocus>
+        </div>
+        <div class = "form-group">
+            <input type = "text" id = "precio" class = "form-control" placeholder = "Precio">
+        </div>
+        <div class="form-group">
+            <input type = "text" id = "descripcion" class = "form-control" placeholder = "Descripción">
+        </div>
+        <button class = "btn btn-primary btn-block">
+            Guardar Producto
+        </button>
+    </form>
+
+    <!-- Logica js -->
+    <script>
+        const { ipcRenderer } = require('electron');  // obtener el protoclo de comunicacion entre ventanas de electron
+        const form = document.querySelector('form');  // seleccionar mi formularios
+        form.addEventListener('submit', e => {  // captura y ejecuta e , cuando esuche el evento submit
+            e.preventDefault();
+
+            const nameProduct = document.querySelector('#name').value; // Guardar el valor de name
+            const priceProduct = document.querySelector('#precio').value; // Guardar el valor de name
+            const descProduct = document.querySelector('#descripcion').value; // Guardar el valor de name
+
+            const newProduct = { // creo mi objeto para enviar toda la informacion
+                name: nameProduct,
+                price: priceProduct,
+                description:descProduct
+            };
+            ipcRenderer.send('product:new',newProduct)
+        });
+    </script>
+    
+</body>
+</html>
